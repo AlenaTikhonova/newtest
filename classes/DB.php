@@ -10,21 +10,28 @@ class DB
 
     }
 
-    public function query($sql, $class='stdClass')
+    public function queryAll($sql, $class = 'stdClass')
     {
         $res = mysql_query($sql);
         if ($res === false) {
             return false;
         }
         $result = [];
-        while ($row = mysql_fetch_object($res,$class)) {
+        while ($row = mysql_fetch_object($res, $class)) {
             $result[] = $row;
         }
         return $result;
     }
 
-    public function queryOne($sql, $class='stdClass'){
+    public function queryOne($sql, $class = 'stdClass')
+    {
 
-           return $this->query($sql, $class)[0];
+        return $this->queryAll($sql, $class)[0];
+    }
+
+    public function queryAdd($sql)
+    {
+        mysql_query($sql);
+
     }
 }

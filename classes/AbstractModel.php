@@ -10,7 +10,7 @@ abstract class AbstractModel {
 
         $db = new DB;
         $sql = 'SELECT * FROM '. static::$table;
-        return  $db->query($sql,static::$class );
+        return  $db->queryAll($sql,static::$class );
 
     }
 

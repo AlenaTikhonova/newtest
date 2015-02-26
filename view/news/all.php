@@ -1,5 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<h3>Все новостий</h3>
+<?php
+//require __DIR__.'/../../models/news.php';
 
-<?php foreach($items as $item):?>
-<?php echo "<h3>".$item->time ."</h3>" ?>
-<?php echo $item->title ."<br>" ?>
-<?php endforeach ?>
+$view->viewAll();
+?>
+</body>
+</html>

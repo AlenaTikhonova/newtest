@@ -1,9 +1,6 @@
 <?php
 
 
-require_once __DIR__ . '/../classes/AbstractModel.php';
-
-
 class News
     extends AbstractModel
 {

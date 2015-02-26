@@ -1,4 +1,15 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<h3>Все новостий</h3>
+<?php
 
-    <?php echo "<h3>".$item->time ."</h3>" ?>
-    <?php echo $item->title ."<br>" ?>
+$view->viewOne();
+?>
+</body>
+</html>
+
