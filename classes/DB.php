@@ -23,5 +23,8 @@ class DB
         return $result;
     }
 
+    public function queryOne($sql, $class='stdClass'){
 
+           return $this->query($sql, $class)[0];
+    }
 }

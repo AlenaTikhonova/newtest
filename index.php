@@ -1,8 +1,15 @@
 <?php
 
-require_once __DIR__ . '/models/news.php';
+require __DIR__."/autoload.php";
+$cntr = isset($_GET['cntr']) ? $_GET['cntr'] : 'News';
+$act = isset($_GET['act']) ? $_GET['act'] : 'All';
 
-$items = News::getAll();
-include __DIR__ . '/view/index.php';
 
-//var_dump($items);
+
+$controller = 'Controllers' . $cntr;
+$cl = new $controller;
+
+$action = 'action' . $act;
+
+$cl->$action();
+
