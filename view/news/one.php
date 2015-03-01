@@ -8,7 +8,10 @@
 <h3>Все новостий</h3>
 <?php
 
-$view->viewOne();
+
+    echo "<h3>" . $item->time . "</h3>";
+    echo $item->title . "<br>";
+
 ?>
 </body>
 </html>

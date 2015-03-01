@@ -6,9 +6,12 @@
 <body>
 <h3>Все новостий</h3>
 <?php
-//require __DIR__.'/../../models/news.php';
 
-$view->viewAll();
+foreach ($items as $item):
+    echo "<h3>" . $item->time . "</h3>";
+    echo $item->title . "<br>";
+endforeach;
+
 ?>
 </body>
 </html>

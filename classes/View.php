@@ -3,24 +3,28 @@
 
 class View
 {
-    public $items;
-    public $item;
+    protected $data = [];
 
 
-    public function  viewAll()
+    public function __set($key,$value){
+        $this->data[$key]=$value;
+    }
+    public function  __get($key){
+        $this->data[$key];
+    }
+
+    public function  display($path)
+
     {
-        foreach ($this->items as $item):
-            echo "<h3>" . $item->time . "</h3>";
-            echo $item->title . "<br>";
-        endforeach;
+        foreach ($this->data as $key => $value){
+             $$key = $value;}
+
+
+
+        include __DIR__ . '/../view/' . $path;
 
     }
 
-    public function  viewOne()
-    {
-        echo "<h3>" . $this->item->time . "</h3>";
 
-        echo $this->item->title . "<br>";
 
-    }
 }

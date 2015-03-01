@@ -7,21 +7,16 @@ class ControllersNews
 {
     public function actionAll(){
         $view= new View;
-        $view->items = News::getAll();
-
-        require __DIR__ . '/../view/news/all.php';
-
-
-
-
-    }
+        $items = News::getAll();
+        $view->items=$items;
+        $view->display('news/all.php');    }
 
     public function actionOne(){
         $id = $_GET['id'];
         $view= new View;
-        $view->$item = News::getOne($id);
-
-        require __DIR__ . '/../view/news/all.php';
+        $item = News::getOne($id);
+        $view->item=$item;
+        $view->display('news/one.php');
 
     }
 }
