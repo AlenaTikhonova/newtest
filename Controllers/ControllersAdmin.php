@@ -4,12 +4,16 @@ class ControllersAdmin {
 
 
     public function actionAdd(){
-        include __DIR__.'/../view/add.php';
+
+        $add_new = new Add();
+        $add_new->displayAddForm('view/add.php');
+
         if (!empty($_POST['text'])) {
-            $write = [];
-            $write['title'] = $_POST['text'];
-            $write['time'] = time();
-            Add::addNews($write);
+            $add_new->title = $_POST['text'];
+            $add_new->time = time();
+
+            $add_new->addNews();
+
         }
 
 
