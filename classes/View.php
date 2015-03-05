@@ -1,6 +1,5 @@
 <?php
 
-
 class View
 {
     protected $data = [];
@@ -16,8 +15,14 @@ class View
     public function  display($path)
 
     {
-        foreach ($this->data as $key => $value){
-             $$key = $value;}
+
+
+        foreach ($this->data as $k=>$v)
+        {
+
+                  $$k=$v ;
+
+        }
 
 
 
@@ -28,3 +33,4 @@ class View
 
 
 }
+

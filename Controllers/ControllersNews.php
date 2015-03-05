@@ -1,21 +1,24 @@
 <?php
 
 
-
-
 class ControllersNews
 {
-    public function actionAll(){
+    public function actionAll()
+    {
         $view= new View;
-        $items = News::getAll();
+        $items = NewsModel::getAll();
         $view->items=$items;
-        $view->display('news/all.php');    }
+        $view->display('news/all.php');
 
-    public function actionOne(){
+
+    }
+
+    public function actionOne()
+    {
         $id = $_GET['id'];
-        $view= new View;
-        $item = News::getOne($id);
-        $view->item=$item;
+        $view = new View;
+        $item = NewsModel::getOne($id);
+        $view->item = $item;
         $view->display('news/one.php');
 
     }

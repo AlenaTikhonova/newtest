@@ -2,36 +2,44 @@
 
 class DB
 {
+    protected $dbh;
+    private $className = 'stdClass';
+
+
+
     public function __construct()
     {
-        mysql_connect('localhost', 'root', '');
-        mysql_select_db('title');
-
-
+       $dsn = 'mysql:dbname=title;host=localhost';
+       $this->dbh = new PDO($dsn, 'root' . '');
+    }
+    public function setClassName($ClassName){
+        $this->className=$ClassName;
     }
 
-    public function queryAll($sql, $class = 'stdClass')
+    public function query($sql, $subst = [])
     {
-        $res = mysql_query($sql);
-        if ($res === false) {
-            return false;
-        }
-        $result = [];
-        while ($row = mysql_fetch_object($res, $class)) {
-            $result[] = $row;
-        }
-        return $result;
+        $sth = $this->dbh->prepare($sql);
+        $sth->execute($subst);
+        return $sth->fetchAll(PDO::FETCH_CLASS,$this->className);
+
     }
 
-    public function queryOne($sql, $class = 'stdClass')
+    public function queryInsert($sql, $subst = [])
     {
+        $sth = $this->dbh->prepare($sql);
+        if($sth->execute($subst)){
+            return $this->dbh->lastInsertId();
+        };
 
-        return $this->queryAll($sql, $class)[0];
     }
-
-    public function queryAdd($sql)
+    public function queryUpdate($sql, $subst = [])
     {
-        mysql_query($sql);
+        $sth = $this->dbh->prepare($sql);
+        return $sth->execute($subst);
+
+
 
     }
+
+
 }

@@ -1,24 +1,46 @@
 <?php
 
-class ControllersAdmin {
+class ControllersAdmin
+{
 
 
-    public function actionAdd(){
+    public function actionAdd()
+    {
 
-        $add_new = new Add();
-        $add_new->displayAddForm('view/add.php');
+        $article = new AddNewsModel();
+        $article->displayAddForm('view/add.php');
 
         if (!empty($_POST['text'])) {
-            $add_new->title = $_POST['text'];
-            $add_new->time = time();
+            $article->title = $_POST['text'];
+            $article->time = time();
 
-            $add_new->addNews();
+            $article->insert();
+            $id_art = $article->id;
 
         }
 
 
     }
 
+    public function actionUpdate()
+    {
+
+
+        $articleNew = new NewsModel();
+        $articleNew->displayAddForm('view/add.php');
+
+        if (!empty($_POST['text'])) {
+            $articleNew->title = $_POST['text'];
+            $articleNew->time = time();
+            $id = '1';//будет приходить через $_GET
+            $articleNew->update($id);
+
+
+        }
+
+
+
+    }
 }
 
 
