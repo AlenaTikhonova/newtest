@@ -8,7 +8,7 @@
 <?php
 
 foreach ($items as $item):
-    echo "<h3>" . $item->time . "</h3>";
+    echo "<h3>" . $item->setGoodTame() . "</h3>";
     echo $item->title . "<br>";
 endforeach;
 

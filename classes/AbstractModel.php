@@ -58,16 +58,17 @@ abstract class AbstractModel
 
          $arr= array_map( "update_data",$data_key,$data_value);
 
-         var_dump($arr);
         $db = new DB;
-       print  $sql = 'UPDATE ' . static::$table . ' SET ' .implode(', ',$arr ).
+        $sql = 'UPDATE ' . static::$table . ' SET ' .implode(', ',$arr ).
          ' WHERE id=:id';
        return $db->query($sql, [':id' => $id]);
     }
 
-    public function delate($id)
+    public function delete($id)
     {
-
+        $db = new DB;
+        $sql = 'DELETE FROM ' . static::$table .' WHERE id=:id';
+        return $db->query($sql, [':id' => $id]);
     }
 }
 
