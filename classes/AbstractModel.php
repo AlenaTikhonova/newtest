@@ -5,15 +5,16 @@ abstract class AbstractModel
 {
 
     protected static $table;
-    protected  $data=[];
+    protected $data = [];
 
-    public function __set($k,$v)
+    public function __set($k, $v)
     {
-        $this->data[$k]=$v;
+        $this->data[$k] = $v;
     }
+
     public function __get($k)
     {
-        return  $this->data[$k];
+        return $this->data[$k];
     }
 
     public static function getAll()
@@ -24,51 +25,79 @@ abstract class AbstractModel
         return $db->query('SELECT * FROM ' . static::$table);
     }
 
-    public static function getOne($id)
+    public static function getOneById($id)
     {
         $db = new DB;
+        $db->setClassName(get_called_class());
         $sql = 'SELECT * FROM ' . static::$table . ' WHERE id=:id';
-        return $db->query($sql, [':id' => $id])[0];
+        $res = $db->query($sql, [':id' => $id]);
+        return $res{0};
+
     }
-    public  function insert()
+
+    protected function insert()
     {
-        $data=[];
+        $data = [];
         $opsh = array_keys($this->data);
-        foreach ($opsh as $op){
-            $data[':'.$op] = $this->data[$op];
+        foreach ($opsh as $op) {
+            $data[':' . $op] = $this->data[$op];
         }
 
-        print $sql = 'INSERT INTO '. static::$table. '
-               ('. implode(', ',$opsh ). ') VALUES
-               ('. implode(', ',array_keys($data) ).')';
+        print $sql = 'INSERT INTO ' . static::$table . '
+               (' . implode(', ', $opsh) . ') VALUES
+               (' . implode(', ', array_keys($data)) . ')';
 
         $db = new DB;
-        $this->data['id']= $db->queryInsert($sql,$data);
-
+        $db->queryInsert($sql, $data);
+        $this->data['id'] = $db->LastInsertId();
     }
 
-    public function update($id)
+    protected function update()
     {
-
-        function  update_data($data_key, $data_value){
-            return $data_key . '= \'' . $data_value. '\'' ;}
-
-        $data_key = array_keys($this->data);
-        $data_value= array_values($this->data);
-
-         $arr= array_map( "update_data",$data_key,$data_value);
-
+        $data = [];
+        $arr = [];
+        foreach ($this->data as $k => $v) {
+            $data[':' . $k] = $v;
+            if ('id' == $k) {
+                continue;
+            }
+            $arr[] = $k . '=:' . $k;
+        }
         $db = new DB;
-        $sql = 'UPDATE ' . static::$table . ' SET ' .implode(', ',$arr ).
-         ' WHERE id=:id';
-       return $db->query($sql, [':id' => $id]);
+        $sql = 'UPDATE ' . static::$table . ' SET ' . implode(', ', $arr) .
+            ' WHERE id=:id';
+        return $db->query($sql, $data);
     }
 
-    public function delete($id)
+    public function save()
+    {
+        if (isset($this->data['id'])) {
+            $this->update();
+        } else {
+            $this->insert();
+        }
+    }
+
+
+    public static function getOneByColumn($column, $value)
+    {
+
+        $db = new DB;
+        $db->setClassName(get_called_class());
+        $sql = 'SELECT * FROM ' . static::$table . ' WHERE ' . $column . ' = :value';
+        $res = $db->query($sql, [':value' => $value]);
+        if (!empty($res)) {
+            return $res[0];
+        } else {
+            return false;
+        }
+    }
+
+    public function delete()
     {
         $db = new DB;
-        $sql = 'DELETE FROM ' . static::$table .' WHERE id=:id';
-        return $db->query($sql, [':id' => $id]);
+        $sql = 'DELETE FROM ' . static::$table . ' WHERE id=:id';
+        return $db->query($sql, [':id' => $this->id]);
     }
 }
 

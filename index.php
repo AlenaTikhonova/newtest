@@ -10,6 +10,14 @@ $controller = 'Controllers' . $cntr;
 $cl = new $controller;
 
 $action = 'action' . $act;
+try {
+    $cl->$action();
+}catch (Exception $e){
+    $view = new View();
+    $view->error  = $e->getMessage();
+    $view->display('error.php');
+}
 
-$cl->$action();
+
+
 

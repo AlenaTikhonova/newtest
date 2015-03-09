@@ -3,34 +3,28 @@
 class View
 {
     protected $data = [];
-
-
-    public function __set($key,$value){
-        $this->data[$key]=$value;
-    }
-    public function  __get($key){
-        $this->data[$key];
-    }
-
-    public function  display($path)
-
+    public function __set($k, $v)
     {
-
-
-        foreach ($this->data as $k=>$v)
-        {
-
-                  $$k=$v ;
-
-        }
-
-
-
-        include __DIR__ . '/../view/' . $path;
-
+        $this->data[$k] = $v;
     }
-
-
+    public function __get($k)
+    {
+        return $this->data[$k];
+    }
+    public function render($template)
+    {
+        foreach ($this->data as $key => $val) {
+            $$key = $val;
+        }
+        ob_start();
+        include __DIR__ . '/../view/' . $template;
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }
+    public function display($template)
+    {
+        echo $this->render($template);
+    }
 
 }
-
