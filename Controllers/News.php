@@ -1,7 +1,10 @@
 <?php
 
+namespace Application\Controllers;
+use Application\models\News as NewsModel;
+use Application\Classes\View;
 
-class ControllersNews
+class News
 {
     public function actionAll()
     {
@@ -9,7 +12,6 @@ class ControllersNews
         $items = NewsModel::getAll();
         $view->items = $items;
         $view->display('news/all.php');
-
     }
 
     public function actionOne()
@@ -18,7 +20,7 @@ class ControllersNews
         $view = new View;
         $item = NewsModel::getOneById($id);
         if (empty($item)){
-        $e = new ModelException('We cant find anything');
+        $e = new \ModelException('We cant find anything');
         throw $e;}
         $view->item = $item;
         $view->display('news/one.php');
@@ -32,7 +34,7 @@ class ControllersNews
 
     }
 
-    public function  save()
+    public function  actionSave()
     {
 
         $article = new NewsModel();

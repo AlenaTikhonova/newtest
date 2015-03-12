@@ -6,7 +6,11 @@
  * $property $time;
  * $property $title;
  */
-class NewsModel
+
+namespace Application\models;
+use Application\Classes\AbstractModel;
+
+class News
     extends AbstractModel
 {
     protected static $table = 'new';

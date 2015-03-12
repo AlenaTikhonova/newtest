@@ -1,12 +1,15 @@
 <?php
 
+use Application\Classes\View;
 require __DIR__."/autoload.php";
-$cntr = isset($_GET['cntr']) ? $_GET['cntr'] : 'News';
-$act = isset($_GET['act']) ? $_GET['act'] : 'All';
 
+$path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+$pathParts = explode( '/' ,$path);
 
+$cntr = !empty($pathParts['1']) ? ucfirst($pathParts['1']) : 'News';
+$act = !empty($pathParts['2']) ? ucfirst($pathParts['2']) : 'All';
 
-$controller = 'Controllers' . $cntr;
+$controller = 'Application\Controllers\\' . $cntr;
 $cl = new $controller;
 
 $action = 'action' . $act;
@@ -16,6 +19,7 @@ try {
     $view = new View();
     $view->error  = $e->getMessage();
     $view->display('error.php');
+
 }
 
 
